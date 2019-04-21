@@ -14,12 +14,17 @@ p = Path(ipt)
 xml_path = p.glob('**/*.xml')
 pdf_path = p.glob('**/*.pdf')
 
-def chg_ipt_codec():
+def copy_xml_and_chg_ipt_codec():
     for i in xml_path:
         with open(opt + i.name, 'w', encoding='utf_8') as fout:
             with open(i, encoding='euc_jp') as fin:
                 fout.write(fin.read())
-chg_ipt_codec()
+def copy_pdf():
+    for i in pdf_path:
+        shutil.copy2(i, opt + i.name)
+
+copy_xml_and_chg_ipt_codec()
+copy_pdf()
 
 # def ipt_copy_to_opt():
 #     for i in xml_path:
