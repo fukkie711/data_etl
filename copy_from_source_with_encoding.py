@@ -1,5 +1,6 @@
-# this is for importing data from DVDs.
+# this is for importing data from DVDs while changing encoding to utf_8.
 #coding:utf-8
+
 import shutil
 import os
 import codecs
@@ -7,8 +8,8 @@ from pathlib import Path
 ipt = ""
 opt = ""
 
-ipt = "/Users/k-fukuzawa/Documents/bin/JPG_2014039/DOCUMENT/A/2014132001/2014132801/"
-opt = "/Users/k-fukuzawa/Documents/bin/output/"
+ipt = "/Users/k-fukuzawa/Dropbox/tmp/input/"
+opt = "/Users/k-fukuzawa/Dropbox/tmp/output/"
 
 p = Path(ipt)
 xml_path = p.glob('**/*.xml')
@@ -19,7 +20,7 @@ def copy_xml_and_chg_ipt_codec():
         with open(opt + i.name, 'w', encoding='utf_8') as fout:
             with open(i, encoding='euc_jp') as fin:
                 fout.write(fin.read())
-def copy_pdf():
+def copy_pdf(): #copy pdf file
     for i in pdf_path:
         shutil.copy2(i, opt + i.name)
 
