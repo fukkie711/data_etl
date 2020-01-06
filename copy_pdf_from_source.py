@@ -15,7 +15,7 @@ opt = ""
 
 #for honnbann
 ipt = sys.argv[1]
-ipt = sys.argv[2]
+opt = sys.argv[2]
 
 p = Path(ipt)
 # xml_path = p.glob('**/*.xml')
