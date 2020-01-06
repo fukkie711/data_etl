@@ -29,7 +29,8 @@ pdf_path = p.glob('**/*.pdf')
 def copy_pdf(): #copy pdf file
     for i in pdf_path:
         shutil.copy2(i, opt + i.name)
-        print(opt + i.name)
+        print("copy to {}".format(opt + i.name)
+print("Done.")
 
 # copy_xml_and_chg_ipt_codec()
 copy_pdf()
