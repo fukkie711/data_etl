@@ -6,24 +6,30 @@ import os
 from pathlib import Path
 import logging
 
-ipt = ""
-opt = ""
 
 # for test
-# ipt = "C:/tmp/pdf_images_extract/ipt"
-# opt = "C:/tmp/pdf_images_extract/opt"
+# ipt = "C:/tmp/ipt"
+# opt = "C:/tmp/opt"
 
+# for honnbann
 ipt = sys.argv[1]
 opt = sys.argv[2]
 
-p = Path(ipt)
-pdf_path = p.glob('**/*.pdf')
+ipt = Path(ipt)
+ipt_pdf_path = ipt.glob('**/*.pdf')
+# 2020-0711 added above for creating "done" directory under opt directory
+done_dir = opt + "/" + "done"
 
+os.makedirs(done_dir, exist_ok=True)
 # try:
-for i in pdf_path:
+for i in ipt_pdf_path:
     dirname = opt + "/" + i.stem
+    # 2020-0711 added "if" for checking directory existance
+    if os.path.exists(dirname):
+        shutil.move(dirname, done_dir)
     # 2020-0514 added "if" for avoiding existing dirs and files
-    if not os.path.exists(dirname):
+    # 2020-0711 changed from "if" to "else"
+    else:
         print(dirname)
         os.mkdir(dirname)
         doc = fitz.open(i)

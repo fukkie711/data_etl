@@ -3,7 +3,8 @@
 import shutil
 import os
 from pathlib import Path
-opt = "/Users/k-fukuzawa/Dropbox/tmp/"
+# opt = "/Users/k-fukuzawa/Dropbox/tmp/"
+opt = "/Users/k-fukuzawa/Dropbox/tmp/output/"
 
 def opt_remove_xml():
     p = Path(opt)
