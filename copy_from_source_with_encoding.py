@@ -17,16 +17,16 @@ opt = ""
 # コマンドライン引数を使ってインプットディレクトリとアウトプットディレクトリを指定する
 # 1はインプット，2はアウトプットディアレク取りを指定する
 
+if len(sys.argv) < 2:
+      print("インプットディレクトリを入力してください")
+      sys.exit()
+if len(sys.argv) < 3:
+      print("アウトプットディレクトリを入力してください")
+      sys.exit()
+
+
 ipt = sys.argv[1]
 opt = sys.argv[2]
-
-while True:
-    if ipt == "":
-        print("インプットディレクトリを入力してください")
-        break
-    if opt == "":
-        print("アウトプットディレクトリを入力してください")
-        break
 
 p = Path(ipt)
 
