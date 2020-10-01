@@ -43,7 +43,7 @@ def copy_pdf(): #copy pdf file
     pdf_path = ipt_path.glob('**/*.pdf')
     for i in pdf_path:
         print(opt_path,i.name )
-        shutil.copy2(i, opt_path + i.name)
+        shutil.copyfile(i, opt_path + i.name)
 
 copy_xml_and_chg_ipt_codec()
 print("----------------------------------------")
