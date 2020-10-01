@@ -19,12 +19,15 @@ ipt = "/Users/k-fukuzawa/Dropbox/tmp/02output/"
 #for honnbann
 # ipt = sys.argv[1]
 # opt = sys.argv[2]
+# db_connect_conf = sys.argv[3]
 
-host = "172.18.106.203"
-port = "5432"###ポート番号
-dbname = "ipdb"###データベース名
-user = "postgres"###ユーザ
-password = "cw6tsttx"###パスワード
+# host = "172.18.106.203"
+# port = "5432"###ポート番号
+# dbname = "ipdb"###データベース名
+# user = "postgres"###ユーザ
+# password = "cw6tsttx"###パスワード
+
+
 conText = "host={} port={} dbname={} user={} password={}"
 conText = conText.format(host, port, dbname, user, password)
 connection = psycopg2.connect(conText)
