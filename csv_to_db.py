@@ -7,6 +7,7 @@ from pathlib import Path
 import pathlib
 import glob
 import logging
+import configparser
 
 ipt = ""
 opt = ""
@@ -19,14 +20,17 @@ ipt = "/Users/k-fukuzawa/Dropbox/tmp/02output/"
 #for honnbann
 # ipt = sys.argv[1]
 # opt = sys.argv[2]
-# db_connect_conf = sys.argv[3]
 
-# host = "172.18.106.203"
-# port = "5432"###ポート番号
-# dbname = "ipdb"###データベース名
-# user = "postgres"###ユーザ
-# password = "cw6tsttx"###パスワード
+# configparserの宣言とiniファイルの読み込み
+config_ini = configparser.ConfigParser()
+config_ini.read('db_config.ini', encoding='utf-8')
 
+# config,iniから値取得
+host = config_ini['DEFAULT']['host']
+port = config_ini['DEFAULT']['port']
+dbname = config_ini['DEFAULT']['dbname']
+user = config_ini['DEFAULT']['user']
+password = config_ini['DEFAULT']['password']
 
 conText = "host={} port={} dbname={} user={} password={}"
 conText = conText.format(host, port, dbname, user, password)
