@@ -4,13 +4,21 @@
 import shutil
 import os
 import codecs
+import sys
 from pathlib import Path
+
 ipt = ""
 opt = ""
 
+# テスト用ディレクトリ
 ipt = "/Users/k-fukuzawa/Dropbox/tmp/01input/"
 opt = "/Users/k-fukuzawa/Dropbox/tmp/01output/"
 
+# コマンドライン引数を使ってインプットディレクトリとアウトプットディレクトリを指定する
+# 1はインプット，2はアウトプットディアレク取りを指定する
+
+ipt = sys.argv[1]
+opt = sys.argv[2]
 p = Path(ipt)
 
 def copy_xml_and_chg_ipt_codec():
@@ -27,7 +35,7 @@ def copy_pdf(): #copy pdf file
         shutil.copy2(i, opt + i.name)
 
 copy_xml_and_chg_ipt_codec()
-# copy_pdf()
+copy_pdf()
 
 # def ipt_copy_to_opt():
 #     for i in xml_path:
