@@ -11,14 +11,23 @@ ipt = ""
 opt = ""
 
 # テスト用ディレクトリ
-ipt = "/Users/k-fukuzawa/Dropbox/tmp/01input/"
-opt = "/Users/k-fukuzawa/Dropbox/tmp/01output/"
+# ipt = "/Users/k-fukuzawa/Dropbox/tmp/01input/"
+# opt = "/Users/k-fukuzawa/Dropbox/tmp/01output/"
 
 # コマンドライン引数を使ってインプットディレクトリとアウトプットディレクトリを指定する
 # 1はインプット，2はアウトプットディアレク取りを指定する
 
 ipt = sys.argv[1]
 opt = sys.argv[2]
+
+while True:
+    if ipt == "":
+        print("インプットディレクトリを入力してください")
+        break
+    if opt == "":
+        print("アウトプットディレクトリを入力してください")
+        break
+
 p = Path(ipt)
 
 def copy_xml_and_chg_ipt_codec():
