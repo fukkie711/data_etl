@@ -34,7 +34,7 @@ opt_path = Path(opt)
 def copy_xml_and_chg_ipt_codec():
     xml_path = ipt_path.glob('**/*.xml')
     for i in xml_path:
-        with open(opt_path + i.name, 'w', encoding='utf_8') as f_out:
+        with open(str(opt_path) + '/' + i.name, 'w', encoding='utf_8') as f_out:
             print(opt_path, i.name)
             with open(i, encoding='euc_jp') as f_in:
                 # 下記はxmlからcsvに変換する際に、euc-jpの記載があると「マルチバイト文字列は使えません」みたいなエラーが出て進まないのでやむを得ず外科手術を行った結果がこれである…
@@ -42,8 +42,8 @@ def copy_xml_and_chg_ipt_codec():
 def copy_pdf(): #copy pdf file
     pdf_path = ipt_path.glob('**/*.pdf')
     for i in pdf_path:
-        print(opt_path,i.name )
-        shutil.copyfile(i, opt_path + i.name)
+        print(opt_path, i.name )
+        shutil.copyfile(i, str(opt_path) + '/' + i.name)
 
 copy_xml_and_chg_ipt_codec()
 print("----------------------------------------")
