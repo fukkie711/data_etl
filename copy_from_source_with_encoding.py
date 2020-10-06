@@ -1,4 +1,4 @@
-# this is for importing data from DVDs while changing encoding to utf_8.
+# this is for importing xml and pdf files from sources and change xml file encodings from euc-jp to utf-8.
 #coding:utf-8
 
 import shutil
