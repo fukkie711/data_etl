@@ -49,7 +49,7 @@ pdf_path = p.glob('**/*.pdf')
 
 try:
     for i in pdf_path:
-        dirname = opt + "/" + i.stem
+        dirname = opt + "/" + "img_" + i.stem # added img as prefix
         # 2020-0514 added "if" for avoiding existing dirs and files
         if not os.path.exists(dirname):
             print(dirname)

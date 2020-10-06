@@ -5,6 +5,7 @@ import shutil
 import os
 import codecs
 import sys
+import datetime
 from pathlib import Path
 
 ipt = ""
@@ -46,13 +47,21 @@ def copy_pdf(): #copy pdf file
         shutil.copyfile(i, str(opt_path) + '/' + i.name)
 
 copy_xml_and_chg_ipt_codec()
+now = datetime.datetime.now()
 print("----------------------------------------")
-print("----------xml copy files done.----------")
+print("{0}: {1:%Y/%m/%d %H:%M} xml copy files done.".format(opt_path, now))
 print("----------------------------------------")
+with open(str(opt_path) + '/' + '_output_result.txt', 'a', encoding='utf_8') as f_out:
+    f_out.write("{0}: {1:%Y/%m/%d %H:%M} xml copy files done.\n".format(opt_path, now))
+
 copy_pdf()
+now = datetime.datetime.now()
 print("----------------------------------------")
-print("----------pdf copy files done.----------")
+print("{0}: {1:%Y/%m/%d %H:%M} pdf copy files done.".format(opt_path, now))
 print("----------------------------------------")
+with open(str(opt_path) + '/' + '_output_result.txt', 'a', encoding='utf_8') as f_out:
+    f_out.write("{0}: {1:%Y/%m/%d %H:%M} pdf copy files done.\n".format(opt_path, now))
+
 
 # def ipt_copy_to_opt():
 #     for i in xml_path:
