@@ -61,11 +61,3 @@ print("{0}: {1:%Y/%m/%d %H:%M} pdf copy files done.".format(opt_path, now))
 print("----------------------------------------")
 with open(str(opt_path) + '/' + '_output_result.txt', 'a', encoding='utf_8') as f_out:
     f_out.write("{0}: {1:%Y/%m/%d %H:%M} pdf copy files done.\n".format(opt_path, now))
-
-
-# def ipt_copy_to_opt():
-#     for i in xml_path:
-#         print(i)
-#         shutil.copy2(i, opt)
-#
-# ipt_copy_to_opt()
