@@ -60,22 +60,21 @@ def xml_to_csv(ipt, opt):
 
             # 格納
             # list_in.append(str(root.findtext('.//publication-reference/document-id/country'))) # 発行国←不要
-            list_in.append(str(root.get('kind-of-st16'))) # 公開種別（記号）
+            list_in.append(str(root.get('kind-of-jp'))) # 公開種別（jp）
+            list_in.append(str(root.get('kind-of-st16'))) # 公開種別（st16）
             list_in.append(str(root.findtext('.//publication-reference/document-id/kind'))) # 公開種別（日本語）
             list_in.append(str(root.findtext('.//publication-reference/document-id/doc-number'))) # 公開番号
+            list_in.append(str(root.findtext('.//publication-reference/document-id/date'))) # 公開日
             list_in.append(str(root.findtext('.//application-reference/document-id/doc-number'))) # 出願番号
             list_in.append(str(root.findtext('.//application-reference/document-id/date'))) # 出願日
+            list_in.append(str(root.findtext('.//invention-title'))) # 発明の名称
+
             list_in.append(str(root.findtext('.//classification-ipc/main-clsf'))) # 国際特許分類(IPC)
             list_in.append(str(root.findtext('.//number-of-claims'))) # 請求項の数
-
-            # 国際特許分類
             list_in.append(str(root.findtext('.//jp:total-pages', namespaces={'jp':'http://www.jpo.go.jp'}))) # 全頁数
-            # FI
-            list_in.append("    ".join((root.find('.//classification-national')).itertext()).replace('JP', '').strip()) 
-            # テーマコード
-            list_in.append("".join((root.find('.//jp:theme-code-info', namespaces={'jp': 'http://www.jpo.go.jp'}).itertext())).replace('\n', '').strip()) if root.find('.//jp:f-term-info', namespaces={'jp': 'http://www.jpo.go.jp'}) != None else list_in.append('') #Fターム
-            # Fターム（一部Fタームの記載の無い公開特許公報（A) があるのでエラーを吐き出す. replaceメソッドで改行文字を削除している．よくわからないけどスペースが6つついている
-            list_in.append("".join((root.find('.//jp:f-term-info', namespaces={'jp': 'http://www.jpo.go.jp'}).itertext())).replace('\n', '').strip()) if root.find('.//jp:f-term-info', namespaces={'jp': 'http://www.jpo.go.jp'}) != None else list_in.append('') #Fターム
+            list_in.append("    ".join((root.find('.//classification-national')).itertext()).replace('JP', '').strip()) #FI
+            list_in.append("".join((root.find('.//jp:theme-code-info', namespaces={'jp': 'http://www.jpo.go.jp'}).itertext())).replace('\n', '').strip()) if root.find('.//jp:f-term-info', namespaces={'jp': 'http://www.jpo.go.jp'}) != None else list_in.append('') #テーマコード
+            list_in.append("".join((root.find('.//jp:f-term-info', namespaces={'jp': 'http://www.jpo.go.jp'}).itertext())).replace('\n', '').strip()) if root.find('.//jp:f-term-info', namespaces={'jp': 'http://www.jpo.go.jp'}) != None else list_in.append('') # Fターム（一部Fタームの記載の無い公開特許公報（A) があるのでエラーを吐き出す. replaceメソッドで改行文字を削除している．よくわからないけどスペースが6つついている
             # fterm_temp.append("".join((root.find('.//jp:f-term-info', namespaces={'jp': 'http://www.jpo.go.jp'}).itertext())).replace('\n', '')) if root.find('.//jp:f-term-info', namespaces={'jp': 'http://www.jpo.go.jp'}) != None else list_in.append('') #Fターム
             # fterm_temp.append(re.sub('^      ', '', "".join(fterm_temp)))
 
@@ -121,7 +120,6 @@ def xml_to_csv(ipt, opt):
             list_in.append(str(root.findtext('.//parties/inventors/inventor[@sequence="8"]/addressbook/name')))
             list_in.append(str(root.findtext('.//parties/inventors/inventor[@sequence="8"]/addressbook/address/text')))
 
-            list_in.append(str(root.findtext('.//invention-title'))) # 発明の名称
             list_in.append("    ".join((root.find('.//abstract/p').itertext()))) #要約【課題】＋【解決手段】＋【選択図】
             list_in.append("      ".join((root.find('.//claims')).itertext()).replace('\n', '').replace(' ', '')) # 請求項（すべて）
             # print(list_in)
