@@ -17,12 +17,12 @@ opt = ""
 # opt = "/Users/k-fukuzawa/Dropbox/tmp/02output/"
 
 # for test (windows)
-ipt = "C:/Users/kazuh/Dropbox/tmp/02input"
-opt = "C:/Users/kazuh/Dropbox/tmp/02output"
+# ipt = "C:/Users/kazuh/Dropbox/tmp/02input"
+# opt = "C:/Users/kazuh/Dropbox/tmp/02output"
 
 #for honnbann
-# ipt = sys.argv[1]
-# opt = sys.argv[2]
+ipt = sys.argv[1]
+opt = sys.argv[2]
 
 def xml_to_csv(ipt, opt):
     p = Path(ipt)
@@ -59,7 +59,6 @@ def xml_to_csv(ipt, opt):
             # writer = csv.writer(csv_open, lineterminator='\n') # 改行しながらオーバーライト
 
             # 格納
-            # list_in.append(str(root.findtext('.//publication-reference/document-id/country'))) # 発行国←不要
             list_in.append(str(root.get('kind-of-jp'))) # 公開種別（jp）
             list_in.append(str(root.get('kind-of-st16'))) # 公開種別（st16）
             list_in.append(str(root.findtext('.//publication-reference/document-id/kind'))) # 公開種別（日本語）
@@ -72,7 +71,7 @@ def xml_to_csv(ipt, opt):
             list_in.append(str(root.findtext('.//classification-ipc/main-clsf'))) # 国際特許分類(IPC)
             list_in.append(str(root.findtext('.//number-of-claims'))) # 請求項の数
             list_in.append(str(root.findtext('.//jp:total-pages', namespaces={'jp':'http://www.jpo.go.jp'}))) # 全頁数
-            list_in.append("    ".join((root.find('.//classification-national')).itertext()).replace('JP', '').strip()) #FI
+            list_in.append("".join((root.find('.//classification-national')).itertext()).replace('JP', '').strip().replace('\n', '')) if root.find('.//classification-national') != None else list_in.append('')#FI 
             list_in.append("".join((root.find('.//jp:theme-code-info', namespaces={'jp': 'http://www.jpo.go.jp'}).itertext())).replace('\n', '').strip()) if root.find('.//jp:f-term-info', namespaces={'jp': 'http://www.jpo.go.jp'}) != None else list_in.append('') #テーマコード
             list_in.append("".join((root.find('.//jp:f-term-info', namespaces={'jp': 'http://www.jpo.go.jp'}).itertext())).replace('\n', '').strip()) if root.find('.//jp:f-term-info', namespaces={'jp': 'http://www.jpo.go.jp'}) != None else list_in.append('') # Fターム（一部Fタームの記載の無い公開特許公報（A) があるのでエラーを吐き出す. replaceメソッドで改行文字を削除している．よくわからないけどスペースが6つついている
             # fterm_temp.append("".join((root.find('.//jp:f-term-info', namespaces={'jp': 'http://www.jpo.go.jp'}).itertext())).replace('\n', '')) if root.find('.//jp:f-term-info', namespaces={'jp': 'http://www.jpo.go.jp'}) != None else list_in.append('') #Fターム
@@ -119,10 +118,18 @@ def xml_to_csv(ipt, opt):
             list_in.append(str(root.findtext('.//parties/inventors/inventor[@sequence="7"]/addressbook/address/text')))
             list_in.append(str(root.findtext('.//parties/inventors/inventor[@sequence="8"]/addressbook/name')))
             list_in.append(str(root.findtext('.//parties/inventors/inventor[@sequence="8"]/addressbook/address/text')))
+            list_in.append(str(root.findtext('.//parties/inventors/inventor[@sequence="9"]/addressbook/name')))
+            list_in.append(str(root.findtext('.//parties/inventors/inventor[@sequence="9"]/addressbook/address/text')))
+            list_in.append(str(root.findtext('.//parties/inventors/inventor[@sequence="10"]/addressbook/name')))
+            list_in.append(str(root.findtext('.//parties/inventors/inventor[@sequence="10"]/addressbook/address/text')))
 
-            list_in.append("    ".join((root.find('.//abstract/p').itertext()))) #要約【課題】＋【解決手段】＋【選択図】
-            list_in.append("      ".join((root.find('.//claims')).itertext()).replace('\n', '').replace(' ', '')) # 請求項（すべて）
+            list_in.append("    ".join((root.find('.//abstract/p').itertext())).replace('\n', '').strip())  if root.find('.//abstract/p') != None else list_in.append('') #要約【課題】＋【解決手段】＋【選択図】
+            list_in.append("    ".join((root.find('.//claims').itertext())).replace('\n', '').strip()) if root.find('.//claims') != None else list_in.append('') # 請求項（すべて）
             # print(list_in)
+
+            # 結果がNoneの行を排除
+            if list_in[0] == 'None':
+                continue
             writer.writerow(list_in) # csvの書き出し
             # csv_open.close()
     csv_open.close()

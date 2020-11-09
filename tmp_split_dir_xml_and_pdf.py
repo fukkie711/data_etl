@@ -4,7 +4,7 @@ import shutil
 import pathlib
 
 for dvd_num in range(1, 900):
-    src_path = 'G:\\pupa\\{}\\'.format(dvd_num)
+    src_path = 'P:\\pupa\\{}\\'.format(dvd_num)
     #move xml files
     xml_dst_path = src_path + 'xml\\'
     os.makedirs(xml_dst_path, exist_ok=True)
