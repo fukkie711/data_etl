@@ -67,6 +67,8 @@ def xml_to_csv(ipt):
                     '{}','{}','{}','{}','{}','{}','{}','{}','{}','{}',\
                     '{}','{}','{}','{}','{}','{}','{}','{}','{}','{}',\
                     '{}','{}','{}','{}','{}','{}','{}','{}','{}','{}',\
+                    '{}','{}','{}','{}','{}','{}','{}','{}','{}','{}',\
+                    '{}','{}','{}','{}','{}','{}','{}','{}','{}','{}',\
                     '{}','{}'\
                     )"
 
@@ -77,7 +79,9 @@ def xml_to_csv(ipt):
                     str(row[20]), str(row[21]), str(row[22]), str(row[23]), str(row[24]), str(row[25]), str(row[26]), str(row[27]), str(row[28]), str(row[29]),\
                     str(row[30]), str(row[31]), str(row[32]), str(row[33]), str(row[34]), str(row[35]), str(row[36]), str(row[37]), str(row[38]), str(row[39]),\
                     str(row[40]), str(row[41]), str(row[42]), str(row[43]), str(row[44]), str(row[45]), str(row[46]), str(row[47]), str(row[48]), str(row[49]),\
-                    str(row[50]), str(row[51])\
+                    str(row[50]), str(row[51]), str(row[52]), str(row[53]), str(row[54]), str(row[55]), str(row[56]), str(row[57]), str(row[58]), str(row[59]),\
+                    str(row[60]), str(row[61]), str(row[62]), str(row[63]), str(row[64]), str(row[65]), str(row[66]), str(row[67]), str(row[68]), str(row[69]),\
+                    str(row[70]), str(row[71])\
                     )
                 cur.execute(clm)
                 connection.commit()
@@ -86,3 +90,4 @@ def xml_to_csv(ipt):
     connection.close()
 
 xml_to_csv(ipt)
+print('done.')

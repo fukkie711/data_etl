@@ -29,6 +29,7 @@ def xml_to_csv(ipt, opt):
     xml_path = p.glob('**/*.xml')
     # [機能]抽出
     # 必要な情報のみ抜き出して、新規作成したcsvファイルに書き出す
+    # ※出力されたcsvファイルをExcelで開くと謎の改行がある場合があるが，これはおそらくExcelで開くときのCSV最大表示可能文字数の上限を超えたためだと思われる．
     cd_path = opt # 代入
     os.chdir(cd_path) # 読み込み先に移動
     # csv_open = open(opt + "test" + ".csv", 'w', encoding='cp932') # shift-jisで書く。utf-8でやると文字化けする… 
@@ -76,7 +77,7 @@ def xml_to_csv(ipt, opt):
             list_in.append("".join((root.find('.//jp:f-term-info', namespaces={'jp': 'http://www.jpo.go.jp'}).itertext())).replace('\n', '').strip()) if root.find('.//jp:f-term-info', namespaces={'jp': 'http://www.jpo.go.jp'}) != None else list_in.append('') # Fターム（一部Fタームの記載の無い公開特許公報（A) があるのでエラーを吐き出す. replaceメソッドで改行文字を削除している．よくわからないけどスペースが6つついている
             # fterm_temp.append("".join((root.find('.//jp:f-term-info', namespaces={'jp': 'http://www.jpo.go.jp'}).itertext())).replace('\n', '')) if root.find('.//jp:f-term-info', namespaces={'jp': 'http://www.jpo.go.jp'}) != None else list_in.append('') #Fターム
             # fterm_temp.append(re.sub('^      ', '', "".join(fterm_temp)))
-
+            # 出願人情報
             list_in.append(str(root.findtext('.//parties/jp:applicants-agents-article/jp:applicants-agents[@sequence="1"]/applicant[@sequence="1"]/addressbook[@lang="ja"]/registered-number', namespaces={'jp':'http://www.jpo.go.jp'})))
             list_in.append(str(root.findtext('.//parties/jp:applicants-agents-article/jp:applicants-agents[@sequence="1"]/applicant[@sequence="1"]/addressbook[@lang="ja"]/name', namespaces={'jp':'http://www.jpo.go.jp'})))
             list_in.append(str(root.findtext('.//parties/jp:applicants-agents-article/jp:applicants-agents[@sequence="1"]/applicant[@sequence="1"]/addressbook[@lang="ja"]/address/text', namespaces={'jp':'http://www.jpo.go.jp'})))
@@ -92,6 +93,7 @@ def xml_to_csv(ipt, opt):
             list_in.append(str(root.findtext('.//parties/jp:applicants-agents-article/jp:applicants-agents[@sequence="5"]/applicant[@sequence="5"]/addressbook[@lang="ja"]/registered-number', namespaces={'jp':'http://www.jpo.go.jp'})))
             list_in.append(str(root.findtext('.//parties/jp:applicants-agents-article/jp:applicants-agents[@sequence="5"]/applicant[@sequence="5"]/addressbook[@lang="ja"]/name', namespaces={'jp':'http://www.jpo.go.jp'})))
             list_in.append(str(root.findtext('.//parties/jp:applicants-agents-article/jp:applicants-agents[@sequence="5"]/applicant[@sequence="5"]/addressbook[@lang="ja"]/address/text', namespaces={'jp':'http://www.jpo.go.jp'})))
+            # 代理人情報
             list_in.append(str(root.findtext('.//parties/jp:applicants-agents-article/jp:applicants-agents[@sequence="1"]/agent[@sequence="1"][@jp:kind="representative"]/addressbook/registered-number', namespaces={'jp':'http://www.jpo.go.jp'})))
             list_in.append(str(root.findtext('.//parties/jp:applicants-agents-article/jp:applicants-agents[@sequence="1"]/agent[@sequence="1"][@jp:kind="representative"]/addressbook/name', namespaces={'jp':'http://www.jpo.go.jp'})))
             list_in.append(str(root.findtext('.//parties/jp:applicants-agents-article/jp:applicants-agents[@sequence="2"]/agent[@sequence="2"][@jp:kind="representative"]/addressbook/registered-number', namespaces={'jp':'http://www.jpo.go.jp'})))
@@ -102,6 +104,7 @@ def xml_to_csv(ipt, opt):
             list_in.append(str(root.findtext('.//parties/jp:applicants-agents-article/jp:applicants-agents[@sequence="4"]/agent[@sequence="4"][@jp:kind="representative"]/addressbook/name', namespaces={'jp':'http://www.jpo.go.jp'})))
             list_in.append(str(root.findtext('.//parties/jp:applicants-agents-article/jp:applicants-agents[@sequence="5"]/agent[@sequence="5"][@jp:kind="representative"]/addressbook/registered-number', namespaces={'jp':'http://www.jpo.go.jp'})))
             list_in.append(str(root.findtext('.//parties/jp:applicants-agents-article/jp:applicants-agents[@sequence="5"]/agent[@sequence="5"][@jp:kind="representative"]/addressbook/name', namespaces={'jp':'http://www.jpo.go.jp'})))
+            # 発明者情報
             list_in.append(str(root.findtext('.//parties/inventors/inventor[@sequence="1"]/addressbook/name')))
             list_in.append(str(root.findtext('.//parties/inventors/inventor[@sequence="1"]/addressbook/address/text')))
             list_in.append(str(root.findtext('.//parties/inventors/inventor[@sequence="2"]/addressbook/name')))
@@ -122,16 +125,36 @@ def xml_to_csv(ipt, opt):
             list_in.append(str(root.findtext('.//parties/inventors/inventor[@sequence="9"]/addressbook/address/text')))
             list_in.append(str(root.findtext('.//parties/inventors/inventor[@sequence="10"]/addressbook/name')))
             list_in.append(str(root.findtext('.//parties/inventors/inventor[@sequence="10"]/addressbook/address/text')))
+            #要約【課題】＋【解決手段】＋【選択図】
+            list_in.append("    ".join((root.find('.//abstract/p').itertext())).replace('\n', '').strip())  if root.find('.//abstract/p') != None else list_in.append('')
+            # 請求項（すべて）
+            list_in.append("    ".join((root.find('.//claims').itertext())).replace('\n', '').strip()) if root.find('.//claims') != None else list_in.append('')
+            # 技術分野（すべて）
+            list_in.append("    ".join((root.find('.//technical-field').itertext())).replace('\n', '').strip()) if root.find('.//technical-field') != None else list_in.append('')
+            # 背景技術（すべて）
+            list_in.append("    ".join((root.find('.//background-art').itertext())).replace('\n', '').strip()) if root.find('.//background-art') != None else list_in.append('')
+            # 特許文献（すべて）
+            list_in.append("    ".join((root.find('.//patent-literature').itertext())).replace('\n', '').strip()) if root.find('.//patent-literature') != None else list_in.append('')
+            # 非特許文献（すべて）
+            list_in.append("    ".join((root.find('.//non-patent-literature').itertext())).replace('\n', '').strip()) if root.find('.//non-patent-literature') != None else list_in.append('')
+            # 発明が解決しようとする課題
+            list_in.append("    ".join((root.find('.//tech-problem').itertext())).replace('\n', '').strip()) if root.find('.//tech-problem') != None else list_in.append('')
+            # 発明を解決するための手段
+            list_in.append("    ".join((root.find('.//tech-solution').itertext())).replace('\n', '').strip()) if root.find('.//tech-solution') != None else list_in.append('')
+            # 発明の効果
+            list_in.append("    ".join((root.find('.//advantageous-effects').itertext())).replace('\n', '').strip()) if root.find('.//advantageous-effects') != None else list_in.append('')
+            # 発明を実施するための形態
+            list_in.append("    ".join((root.find('.//description-of-embodiments').itertext())).replace('\n', '').strip().rstrip('\n')) if root.find('.//description-of-embodiments') != None else list_in.append('')
+            # 産業利用上の可能性
+            list_in.append("    ".join((root.find('.//industrial-applicability').itertext())).replace('\n', '').strip()) if root.find('.//industrial-applicability') != None else list_in.append('')
+            # 図面の簡単な説明
+            list_in.append("    ".join((root.find('.//description-of-drawings').itertext())).replace('\n', '').strip()) if root.find('.//description-of-drawings') != None else list_in.append('')
 
-            list_in.append("    ".join((root.find('.//abstract/p').itertext())).replace('\n', '').strip())  if root.find('.//abstract/p') != None else list_in.append('') #要約【課題】＋【解決手段】＋【選択図】
-            list_in.append("    ".join((root.find('.//claims').itertext())).replace('\n', '').strip()) if root.find('.//claims') != None else list_in.append('') # 請求項（すべて）
-            # print(list_in)
-
+            print(list_in)
             # 結果がNoneの行を排除
             if list_in[0] == 'None':
                 continue
             writer.writerow(list_in) # csvの書き出し
-            # csv_open.close()
     csv_open.close()
 
 xml_to_csv(ipt, opt)
