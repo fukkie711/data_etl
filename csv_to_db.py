@@ -9,11 +9,13 @@ import glob
 import logging
 import configparser
 
+src = ""
 ipt = ""
 opt = ""
 
 # for test
-ipt = "/Users/kazuh/Dropbox/tmp/02output/"
+src = "/Users/kazuh/Dropbox/tmp/02input/"
+# ipt = "/Users/kazuh/Dropbox/tmp/02output/"
 # opt = "/Users/k-fukuzawa/Dropbox/tmp/01output/"
 
 #for honnbann
@@ -37,8 +39,8 @@ connection = psycopg2.connect(conText)
 connection.get_backend_pid()
 cur = connection.cursor()
 
-def xml_to_csv(ipt):
-    p = Path(ipt)
+def xml_to_csv(src):
+    p = Path(src)
     csv_path = p.glob('**/*.csv')
     for cp in csv_path:
         # with open(cp, newline = '', encoding='cp932') as cpf:
@@ -80,5 +82,5 @@ def xml_to_csv(ipt):
     cur.close()
     connection.close()
 
-xml_to_csv(ipt)
+xml_to_csv(src)
 print('done.')

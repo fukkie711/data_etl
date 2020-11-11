@@ -21,23 +21,29 @@ opt = ""
 # opt = "C:/Users/kazuh/Dropbox/tmp/02output"
 
 #for honnbann
-ipt = sys.argv[1]
-opt = sys.argv[2]
+# ipt = sys.argv[1]
+# opt = sys.argv[2]
+src = sys.argv[1]
 
-def xml_to_csv(ipt, opt):
-    p = Path(ipt)
+# def xml_to_csv(ipt, opt):
+def xml_to_csv(src):
+    # p = Path(ipt)
+    p = Path(src)
     xml_path = p.glob('**/*.xml')
     # 必要な情報のみ抜き出して、新規作成したcsvファイルに書き出す
     # ※出力されたcsvファイルをExcelで開くと謎の改行がある場合があるが，これはおそらくExcelで開くときのCSV最大表示可能文字数の上限を超えたためだと思われる．
-    cd_path = opt # 代入
-    os.chdir(cd_path) # 読み込み先に移動
-    csv_open = open(opt + "/" + p.name + ".csv", 'w', encoding='cp932') # ディレクトリ名をCSVのファイル名にする．shift-jisで書く。utf-8でやると文字化けする… 
-    writer = csv.writer(csv_open, lineterminator='\n') # 改行しながらオーバーライト
+    # cd_path = opt # 代入
+    # os.chdir(cd_path) # 読み込み先に移動
+
+    # csv_open = open(opt + "/" + p.name + ".csv", 'w', encoding='cp932') # ディレクトリ名をCSVのファイル名にする．shift-jisで書く。utf-8でやると文字化けする… 
+    # writer = csv.writer(csv_open, lineterminator='\n') # 改行しながらオーバーライト
 
     for xml_files in xml_path:
+        csv_open = open(str(xml_files.parents[1]) + "/" + str(xml_files.parents[1].name) + ".csv", "a", encoding='cp932')
+        writer = csv.writer(csv_open, lineterminator='\n') # 改行しながらオーバーライト
+        list_in = [] # リストの初期化
         with open(xml_files, encoding='utf_8') as f:
             print(xml_files)
-            list_in = [] # リストの初期化
             # csv_name = "" # CSVファイル名文字列準備
             tree = parse(f)
             root = tree.getroot()
@@ -139,7 +145,8 @@ def xml_to_csv(ipt, opt):
             # 結果がNoneの行を排除
             if list_in[0] == 'None':
                 continue
-            writer.writerow(list_in) # csvの書き出し
-    csv_open.close()
+        writer.writerow(list_in) # csvの書き出し
+        csv_open.close()
 
-xml_to_csv(ipt, opt)
+# xml_to_csv(ipt, opt)
+xml_to_csv(src)
