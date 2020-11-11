@@ -13,8 +13,7 @@ ipt = ""
 opt = ""
 
 # for test
-# ipt = "/Users/k-fukuzawa/Dropbox/tmp/02input/"
-ipt = "/Users/k-fukuzawa/Dropbox/tmp/02output/"
+ipt = "/Users/kazuh/Dropbox/tmp/02output/"
 # opt = "/Users/k-fukuzawa/Dropbox/tmp/01output/"
 
 #for honnbann
@@ -23,7 +22,7 @@ ipt = "/Users/k-fukuzawa/Dropbox/tmp/02output/"
 
 # configparserの宣言とiniファイルの読み込み
 config_ini = configparser.ConfigParser()
-config_ini.read('db_config.ini', encoding='utf-8')
+config_ini.read('../ini/db_config.ini', encoding='utf-8')
 
 # config,iniから値取得
 host = config_ini['DEFAULT']['host']
@@ -47,18 +46,7 @@ def xml_to_csv(ipt):
             print(cpf)
             read = csv.reader(cpf)#1行ずつ読む
             for row in read:#任意の列をレコードごとにDBへ書き込み
-
                 # マスター関連のDBへのインサート処理はとりあえず実装しない
-                # #代理人マスター
-                # ##テーブル名の指定と、カラム名で列を指定する。文字列がデータの場合はプレースホルダを単一引用符でくくる
-                # #conflictで主キーの重複を上書きする処理で重複回避
-                # #代理人がいない場合に"Null"がデータベースに1件レコードして作成されてしまいます。
-                # #setsu.exeで"Null"に関する修正する時に注意
-                # clm = "INSERT INTO agent_master (agent_ident_number,agent_ident_name) VALUES ('{}','{}') on conflict(agent_ident_number) do update set agent_ident_number = '{}'"
-                # clm = clm.format(str(row[28]),str(row[29]),str(row[28]))#csvファイルのデータのうちどの列を指定するか
-                # ###書き込み完了処理###
-                # cur.execute(clm)
-                # connection.commit()
 
                 #公開特許公報出願テーブル
                 clm = "INSERT INTO pupa_application_table VALUES(\
@@ -69,20 +57,23 @@ def xml_to_csv(ipt):
                     '{}','{}','{}','{}','{}','{}','{}','{}','{}','{}',\
                     '{}','{}','{}','{}','{}','{}','{}','{}','{}','{}',\
                     '{}','{}','{}','{}','{}','{}','{}','{}','{}','{}',\
-                    '{}','{}'\
+                    '{}'\
                     )"
-
+                
                 #列の挿入
+                # postgresのシングルクォーテーション文字挿入対策も行う
                 clm = clm.format(\
-                    str(row[0]), str(row[1]), str(row[2]), str(row[3]), str(row[4]), str(row[5]), str(row[6]), str(row[7]), str(row[8]), str(row[9]),\
-                    str(row[10]), str(row[11]), str(row[12]), str(row[13]), str(row[14]), str(row[15]), str(row[16]), str(row[17]), str(row[18]), str(row[19]),\
-                    str(row[20]), str(row[21]), str(row[22]), str(row[23]), str(row[24]), str(row[25]), str(row[26]), str(row[27]), str(row[28]), str(row[29]),\
-                    str(row[30]), str(row[31]), str(row[32]), str(row[33]), str(row[34]), str(row[35]), str(row[36]), str(row[37]), str(row[38]), str(row[39]),\
-                    str(row[40]), str(row[41]), str(row[42]), str(row[43]), str(row[44]), str(row[45]), str(row[46]), str(row[47]), str(row[48]), str(row[49]),\
-                    str(row[50]), str(row[51]), str(row[52]), str(row[53]), str(row[54]), str(row[55]), str(row[56]), str(row[57]), str(row[58]), str(row[59]),\
-                    str(row[60]), str(row[61]), str(row[62]), str(row[63]), str(row[64]), str(row[65]), str(row[66]), str(row[67]), str(row[68]), str(row[69]),\
-                    str(row[70]), str(row[71])\
+                    str(row[0]).replace("'", "''"), str(row[1]).replace("'", "''"), str(row[2]).replace("'", "''"), str(row[3]).replace("'", "''"), str(row[4]).replace("'", "''"), str(row[5]).replace("'", "''"), str(row[6]).replace("'", "''"), str(row[7]).replace("'", "''"), str(row[8]).replace("'", "''"), str(row[9]).replace("'", "''"),\
+                    str(row[10]).replace("'", "''"), str(row[11]).replace("'", "''"), str(row[12]).replace("'", "''"), str(row[13]).replace("'", "''"), str(row[14]).replace("'", "''"), str(row[15]).replace("'", "''"), str(row[16]).replace("'", "''"), str(row[17]).replace("'", "''"), str(row[18]).replace("'", "''"), str(row[19]).replace("'", "''"),\
+                    str(row[20]).replace("'", "''"), str(row[21]).replace("'", "''"), str(row[22]).replace("'", "''"), str(row[23]).replace("'", "''"), str(row[24]).replace("'", "''"), str(row[25]).replace("'", "''"), str(row[26]).replace("'", "''"), str(row[27]).replace("'", "''"), str(row[28]).replace("'", "''"), str(row[29]).replace("'", "''"),\
+                    str(row[30]).replace("'", "''"), str(row[31]).replace("'", "''"), str(row[32]).replace("'", "''"), str(row[33]).replace("'", "''"), str(row[34]).replace("'", "''"), str(row[35]).replace("'", "''"), str(row[36]).replace("'", "''"), str(row[37]).replace("'", "''"), str(row[38]).replace("'", "''"), str(row[39]).replace("'", "''"),\
+                    str(row[40]).replace("'", "''"), str(row[41]).replace("'", "''"), str(row[42]).replace("'", "''"), str(row[43]).replace("'", "''"), str(row[44]).replace("'", "''"), str(row[45]).replace("'", "''"), str(row[46]).replace("'", "''"), str(row[47]).replace("'", "''"), str(row[48]).replace("'", "''"), str(row[49]).replace("'", "''"),\
+                    str(row[50]).replace("'", "''"), str(row[51]).replace("'", "''"), str(row[52]).replace("'", "''"), str(row[53]).replace("'", "''"), str(row[54]).replace("'", "''"), str(row[55]).replace("'", "''"), str(row[56]).replace("'", "''"), str(row[57]).replace("'", "''"), str(row[58]).replace("'", "''"), str(row[59]).replace("'", "''"),\
+                    str(row[60]).replace("'", "''"), str(row[61]).replace("'", "''"), str(row[62]).replace("'", "''"), str(row[63]).replace("'", "''"), str(row[64]).replace("'", "''"), str(row[65]).replace("'", "''"), str(row[66]).replace("'", "''"), str(row[67]).replace("'", "''"), str(row[68]).replace("'", "''"), str(row[69]).replace("'", "''"),\
+                    str(row[70]).replace("'", "''")\
                     )
+                
+                # print(clm)
                 cur.execute(clm)
                 connection.commit()
 
