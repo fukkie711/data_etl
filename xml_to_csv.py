@@ -12,13 +12,13 @@ from pathlib import Path
 ipt = ""
 opt = ""
 # src = 'G:\\pupa'
+src = 'D:\\patent_db\\pupa'
 # コマンドライン引数からCSVを検索して作成するディレクトリを指定する
 # src = sys.argv[1]
-
 # def xml_to_csv(ipt, opt):
 def xml_to_csv(src):
     # p = Path(ipt)
-    for dir_num in range(1, 3):
+    for dir_num in range(1, 2):
         src_path = src + '/' + str(dir_num) 
         src_path = Path(src_path)
         csv_open = open(str(src_path) + '/' + str(dir_num) + '.csv', "w", encoding='cp932')
