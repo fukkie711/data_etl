@@ -9,7 +9,8 @@ import datetime
 
 ipt = ""
 opt = ""
-logdir = "/Users/k-fukuzawa/Dropbox/tmp/log/"
+# logdir = "/Users/k-fukuzawa/Dropbox/tmp/log/"
+logdir = "C:/log"
 
 dt_now = datetime.datetime.now()
 
@@ -18,9 +19,10 @@ dt_now = datetime.datetime.now()
 # opt = "C:/tmp/pdf_images_extract/opt"
 
 # for test (Mac)
-ipt = "/Users/k-fukuzawa/Dropbox/tmp/02input"
-opt = "/Users/k-fukuzawa/Dropbox/tmp/02output"
-
+# ipt = "/Users/k-fukuzawa/Dropbox/tmp/02input"
+# opt = "/Users/k-fukuzawa/Dropbox/tmp/02output"
+# src = "D:/patent_db/pupa/1/pdf"
+src = "D:/patent_db/pupa"
 # determine input directory, output directory, logfile directory (option) from command line arguments
 # ipt = sys.argv[1]
 # opt = sys.argv[2]
@@ -44,49 +46,51 @@ logger.addHandler(sh)
 fh = logging.FileHandler(logdir)
 logger.addHandler(fh)
 
-p = Path(ipt)
-pdf_path = p.glob('**/*.pdf')
+    
+def pdf_Images_Extract(src):
+    p = Path(src)
+    pdf_path = p.glob('**/*.pdf')
+    for dir_num in range(1,2):
+        try:
+            for i in pdf_path:
+                dirname = src + "/" + dir_num + "/" + i.stem # added img as prefix
+                # 2020-0514 added "if" for avoiding existing dirs and files
+                if not os.path.exists(dirname):
+                    print(dirname)
+                    os.mkdir(dirname)
+                    doc = fitz.open(i)
+                    os.chdir(dirname)
+                    for j in range(len(doc)):
+                        for img in doc.getPageImageList(j):
+                            xref = img[0]
+                            pix = fitz.Pixmap(doc, xref)
+                            if pix.n < 5:       # this is GRAY or RGB
+                                pix.writePNG("p%s-%s.png" % (j, xref))
+                                print("   p%s-%s.png" % (j, xref))
+                            else:               # CMYK: convert to RGB first
+                                pix1 = fitz.Pixmap(fitz.csRGB, pix)
+                                pix1.writePNG("p%s-%s.png" % (j, xref))
+                                print("   p%s-%s.png" % (j, xref))
+                                pix1 = None
+                            pix = None
+        except (RuntimeError) as e:
+            logger.exception('RuntimeError: %s %s', e, dt_now)
+        else:
+            # logger.log(10, 'Done')
+            # logger.info('Done %s', dt_now)
+            logger.info('Done')
+            # logger.info()
+            # print('Done (No error).')
+        # except:
+        #     import traceback
+        #     traceback.print_exc()
+        #     fh = logging.FileHandler('c:/logs/loggingtest.log') #ファイル名を設定
+        #     logger.addHandler(fh)
+        #     sh = logging.StreamHandler()
+        #     logger.addHandler(sh)
 
-try:
-    for i in pdf_path:
-        dirname = opt + "/" + "img_" + i.stem # added img as prefix
-        # 2020-0514 added "if" for avoiding existing dirs and files
-        if not os.path.exists(dirname):
-            print(dirname)
-            os.mkdir(dirname)
-            doc = fitz.open(i)
-            os.chdir(dirname)
-            for j in range(len(doc)):
-                for img in doc.getPageImageList(j):
-                    xref = img[0]
-                    pix = fitz.Pixmap(doc, xref)
-                    if pix.n < 5:       # this is GRAY or RGB
-                        pix.writePNG("p%s-%s.png" % (j, xref))
-                        print("   p%s-%s.png" % (j, xref))
-                    else:               # CMYK: convert to RGB first
-                        pix1 = fitz.Pixmap(fitz.csRGB, pix)
-                        pix1.writePNG("p%s-%s.png" % (j, xref))
-                        print("   p%s-%s.png" % (j, xref))
-                        pix1 = None
-                    pix = None
-except (RuntimeError) as e:
-    logger.exception('RuntimeError: %s %s', e, dt_now)
-else:
-    # logger.log(10, 'Done')
-    # logger.info('Done %s', dt_now)
-    logger.info('Done')
-    # logger.info()
-    # print('Done (No error).')
-# except:
-#     import traceback
-#     traceback.print_exc()
-#     fh = logging.FileHandler('c:/logs/loggingtest.log') #ファイル名を設定
-#     logger.addHandler(fh)
-#     sh = logging.StreamHandler()
-#     logger.addHandler(sh)
 
-
-    # f.write(e.args)
-    # f.close
-    # pass
-    # raise
+        # f.write(e.args)
+        # f.close
+        # pass
+        # raise
