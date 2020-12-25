@@ -18,7 +18,7 @@ src = 'D:\\patent_db\\pupa'
 # def xml_to_csv(ipt, opt):
 def xml_to_csv(src):
     # p = Path(ipt)
-    for dir_num in range(1, 2):
+    for dir_num in range(1, 900):
         src_path = src + '/' + str(dir_num) 
         src_path = Path(src_path)
         csv_open = open(str(src_path) + '/' + str(dir_num) + '.csv', "w", encoding='cp932')
