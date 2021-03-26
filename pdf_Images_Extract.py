@@ -48,18 +48,21 @@ logger.addHandler(fh)
 
     
 def pdf_Images_Extract(src):
-    p = Path(src)
-    pdf_path = p.glob('**/*.pdf')
-    for dir_num in range(1,2):
+    for dir_num in range(1,3):
+        # pdf_path = src + "/" + str(dir_num) + "/" + "pdf" + "/" + i.stem 
+        dir_path = Path(src) / str(dir_num) / "pdf"
+        # dir_path = Path(dir_path)
+        pdf_path = dir_path.glob('**/*.pdf')
         try:
-            for i in pdf_path:
-                dirname = src + "/" + dir_num + "/" + i.stem # added img as prefix
+            for pdf_file in pdf_path:
+                # dirname = src + "/" + str(dir_num) + "/" + "pdf" + "/" + i.stem # added img as prefix
                 # 2020-0514 added "if" for avoiding existing dirs and files
-                if not os.path.exists(dirname):
-                    print(dirname)
-                    os.mkdir(dirname)
-                    doc = fitz.open(i)
-                    os.chdir(dirname)
+                pdf_name = dir_path / pdf_file.stem 
+                if not os.path.exists(pdf_name):
+                    print(pdf_name)
+                    os.mkdir(pdf_name)
+                    doc = fitz.open(pdf_name)
+                    os.chdir(pdf_name)
                     for j in range(len(doc)):
                         for img in doc.getPageImageList(j):
                             xref = img[0]
