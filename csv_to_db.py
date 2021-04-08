@@ -78,17 +78,30 @@ def xml_to_csv(src):
                         '{}','{}','{}','{}','{}',\
                         '{}','{}','{}','{}','{}',\
                         '{}','{}','{}','{}','{}',\
-                        '{}','{}'\
+                        '{}','{}','{}','{}','{}'\
                         )"
                     #列の挿入
                     clm = clm.format(\
-                        str(row[0]).replace("'", "''"), str(row[1]).replace("'", "''"), str(row[2]).replace("'", "''"), str(row[3]).replace("'", "''"), str(row[4]).replace("'", "''"),\
-                        # str(row[5]).replace("'", "''"), str(row[6]).replace("'", "''"), str(row[7]).replace("'", "''"), str(row[8]).replace("'", "''"), (row[9]).replace("'", "''"),\
-                        # str(row[10]).replace("'", "''"), str(row[11]).replace("'", "''"), str(row[12]).replace("'", "''"), str(row[13]).replace("'", "''"), str(row[14]).replace("'", "''"),\
-                        str(row[5]).replace("'", "''"), str(row[6]).replace("'", "''"), str(row[7]).replace("'", "''"), str(row[8]).replace("'", "''"), row[9],\
-                        row[10], str(row[11]).replace("'", "''"), str(row[12]).replace("'", "''"), str(row[13]).replace("'", "''"), str(row[14]).replace("'", "''"),\
-                        str(row[15]).replace("'", "''"), str(row[16]).replace("'", "''"), str(row[29]).replace("'", "''"), str(row[30]).replace("'", "''"), str(row[39]).replace("'", "''"),\
-                        str(row[40]).replace("'", "''"), str(row[59]).replace("'", "''")\
+                        # 公開種別(jp)、公開種別(st16)、公開種別、公開番号
+                        str(row[0]).replace("'", "''"), str(row[1]).replace("'", "''"), str(row[2]).replace("'", "''"), str(row[3]).replace("'", "''"),\
+                        # 公開日、出願番号、出願日、
+                        str(row[4]).replace("'", "''"), str(row[5]).replace("'", "''"), str(row[6]).replace("'", "''"),\
+                        # 発明の名称、国際特許分類、
+                        str(row[7]).replace("'", "''"), str(row[8]).replace("'", "''"),\
+                        # 請求項の数＆頁数（replaceしない）
+                        row[9], row[10],\
+                        # FI, テーマコード, Fターム
+                        str(row[11]).replace("'", "''"), str(row[12]).replace("'", "''"), str(row[13]).replace("'", "''"),\
+                        # 出願人1
+                        str(row[14]).replace("'", "''"), str(row[15]).replace("'", "''"), str(row[16]).replace("'", "''"),\
+                        # 出願人2
+                        str(row[17]).replace("'", "''"), str(row[18]).replace("'", "''"), str(row[19]).replace("'", "''"),\
+                        # 代理人1
+                        str(row[50]).replace("'", "''"), str(row[51]).replace("'", "''"),\
+                        # 発明者1
+                        str(row[74]).replace("'", "''"), str(row[75]).replace("'", "''"),\
+                        # 要約
+                        str(row[98]).replace("'", "''")
                         )
                     cur.execute(clm)
                     connection.commit()
@@ -99,14 +112,29 @@ def xml_to_csv(src):
                         '{}','{}','{}','{}','{}',\
                         '{}','{}','{}','{}','{}',\
                         '{}','{}','{}','{}','{}',\
-                        '{}','{}','{}'\
+                        '{}','{}','{}','{}','{}',\
+                        '{}','{}','{}','{}','{}',\
+                        '{}','{}','{}','{}','{}',\
+                        '{}','{}','{}','{}','{}',\
+                        '{}','{}','{}','{}'\
                         )"
                     #列の挿入
                     clm = clm.format(\
-                        str(row[0]).replace("'", "''"), str(row[1]).replace("'", "''"), str(row[3]).replace("'", "''"), str(row[14]).replace("'", "''"), str(row[15]).replace("'", "''"),\
-                        str(row[16]).replace("'", "''"), str(row[17]).replace("'", "''"), str(row[18]).replace("'", "''"), str(row[19]).replace("'", "''"), str(row[20]).replace("'", "''"),\
-                        str(row[21]).replace("'", "''"), str(row[22]).replace("'", "''"), str(row[23]).replace("'", "''"), str(row[24]).replace("'", "''"), str(row[25]).replace("'", "''"),\
-                        str(row[26]).replace("'", "''"), str(row[27]).replace("'", "''"), str(row[28]).replace("'", "''")\
+                        # 公開種別(jp)、公開種別(st16)、公開番号
+                        str(row[0]).replace("'", "''"), str(row[1]).replace("'", "''"), str(row[3]).replace("'", "''"),\
+                        # 出願人1～出願人12の情報
+                        str(row[14]).replace("'", "''"), str(row[15]).replace("'", "''"), str(row[16]).replace("'", "''"),\
+                        str(row[17]).replace("'", "''"), str(row[18]).replace("'", "''"), str(row[19]).replace("'", "''"),\
+                        str(row[20]).replace("'", "''"), str(row[21]).replace("'", "''"), str(row[22]).replace("'", "''"),\
+                        str(row[23]).replace("'", "''"), str(row[24]).replace("'", "''"), str(row[25]).replace("'", "''"),\
+                        str(row[26]).replace("'", "''"), str(row[27]).replace("'", "''"), str(row[28]).replace("'", "''"),\
+                        str(row[29]).replace("'", "''"), str(row[30]).replace("'", "''"), str(row[31]).replace("'", "''"),\
+                        str(row[32]).replace("'", "''"), str(row[33]).replace("'", "''"), str(row[34]).replace("'", "''"),\
+                        str(row[35]).replace("'", "''"), str(row[36]).replace("'", "''"), str(row[37]).replace("'", "''"),\
+                        str(row[38]).replace("'", "''"), str(row[39]).replace("'", "''"), str(row[40]).replace("'", "''"),\
+                        str(row[41]).replace("'", "''"), str(row[42]).replace("'", "''"), str(row[43]).replace("'", "''"),\
+                        str(row[44]).replace("'", "''"), str(row[45]).replace("'", "''"), str(row[46]).replace("'", "''"),\
+                        str(row[47]).replace("'", "''"), str(row[48]).replace("'", "''"), str(row[49]).replace("'", "''")\
                         )
                     cur.execute(clm)
                     connection.commit()
@@ -116,13 +144,27 @@ def xml_to_csv(src):
                     clm = "INSERT INTO pupa_agent_info VALUES(\
                         '{}','{}','{}','{}','{}',\
                         '{}','{}','{}','{}','{}',\
-                        '{}','{}','{}'\
+                        '{}','{}','{}','{}','{}',\
+                        '{}','{}','{}','{}','{}',\
+                        '{}','{}','{}','{}','{}',\
+                        '{}','{}'\
                         )"
                     #列の挿入
                     clm = clm.format(\
-                        str(row[0]).replace("'", "''"), str(row[1]).replace("'", "''"), str(row[3]).replace("'", "''"), str(row[29]).replace("'", "''"), str(row[30]).replace("'", "''"),\
-                        str(row[31]).replace("'", "''"), str(row[32]).replace("'", "''"), str(row[33]).replace("'", "''"), str(row[34]).replace("'", "''"), str(row[35]).replace("'", "''"),\
-                        str(row[36]).replace("'", "''"), str(row[37]).replace("'", "''"), str(row[38]).replace("'", "''")\
+                        # 公開種別(jp)、公開種別(st16)、公開番号
+                        str(row[0]).replace("'", "''"), str(row[1]).replace("'", "''"), str(row[3]).replace("'", "''"),\
+                        str(row[50]).replace("'", "''"), str(row[51]).replace("'", "''"),\
+                        str(row[52]).replace("'", "''"), str(row[53]).replace("'", "''"),\
+                        str(row[54]).replace("'", "''"), str(row[55]).replace("'", "''"),\
+                        str(row[56]).replace("'", "''"), str(row[57]).replace("'", "''"),\
+                        str(row[58]).replace("'", "''"), str(row[59]).replace("'", "''"),\
+                        str(row[60]).replace("'", "''"), str(row[61]).replace("'", "''"),\
+                        str(row[62]).replace("'", "''"), str(row[63]).replace("'", "''"),\
+                        str(row[64]).replace("'", "''"), str(row[65]).replace("'", "''"),\
+                        str(row[66]).replace("'", "''"), str(row[67]).replace("'", "''"),\
+                        str(row[68]).replace("'", "''"), str(row[69]).replace("'", "''"),\
+                        str(row[70]).replace("'", "''"), str(row[71]).replace("'", "''"),\
+                        str(row[72]).replace("'", "''"), str(row[73]).replace("'", "''")\
                         )
                     cur.execute(clm)
                     connection.commit()
@@ -134,15 +176,25 @@ def xml_to_csv(src):
                         '{}','{}','{}','{}','{}',\
                         '{}','{}','{}','{}','{}',\
                         '{}','{}','{}','{}','{}',\
-                        '{}','{}','{}'\
+                        '{}','{}','{}','{}','{}',\
+                        '{}','{}'\
                         )"
                     #列の挿入
                     clm = clm.format(\
-                        str(row[0]).replace("'", "''"), str(row[1]).replace("'", "''"), str(row[3]).replace("'", "''"), str(row[39]).replace("'", "''"), str(row[40]).replace("'", "''"),\
-                        str(row[41]).replace("'", "''"), str(row[42]).replace("'", "''"), str(row[43]).replace("'", "''"), str(row[44]).replace("'", "''"), str(row[45]).replace("'", "''"),\
-                        str(row[46]).replace("'", "''"), str(row[47]).replace("'", "''"), str(row[48]).replace("'", "''"), str(row[49]).replace("'", "''"), str(row[50]).replace("'", "''"),\
-                        str(row[51]).replace("'", "''"), str(row[52]).replace("'", "''"), str(row[53]).replace("'", "''"), str(row[54]).replace("'", "''"), str(row[55]).replace("'", "''"),\
-                        str(row[56]).replace("'", "''"), str(row[57]).replace("'", "''"), str(row[58]).replace("'", "''")\
+                        # 公開種別(jp)、公開種別(st16)、公開番号
+                        str(row[0]).replace("'", "''"), str(row[1]).replace("'", "''"), str(row[3]).replace("'", "''"),\
+                        str(row[74]).replace("'", "''"), str(row[75]).replace("'", "''"),\
+                        str(row[76]).replace("'", "''"), str(row[77]).replace("'", "''"),\
+                        str(row[78]).replace("'", "''"), str(row[79]).replace("'", "''"),\
+                        str(row[80]).replace("'", "''"), str(row[81]).replace("'", "''"),\
+                        str(row[82]).replace("'", "''"), str(row[83]).replace("'", "''"),\
+                        str(row[84]).replace("'", "''"), str(row[85]).replace("'", "''"),\
+                        str(row[86]).replace("'", "''"), str(row[87]).replace("'", "''"),\
+                        str(row[88]).replace("'", "''"), str(row[89]).replace("'", "''"),\
+                        str(row[90]).replace("'", "''"), str(row[91]).replace("'", "''"),\
+                        str(row[92]).replace("'", "''"), str(row[93]).replace("'", "''"),\
+                        str(row[94]).replace("'", "''"), str(row[95]).replace("'", "''"),\
+                        str(row[96]).replace("'", "''"), str(row[97]).replace("'", "''")
                         )
                     cur.execute(clm)
                     connection.commit()
@@ -156,9 +208,14 @@ def xml_to_csv(src):
                         '{}', '{}', '{}', '{}'\
                         )"
                     clm = clm.format(\
-                        str(row[0]).replace("'", "''"), str(row[1]).replace("'", "''"), str(row[3]).replace("'", "''"),  str(row[60]).replace("'", "''"), str(row[61]).replace("'", "''"),\
-                        str(row[62]).replace("'", "''"), str(row[63]).replace("'", "''"), str(row[64]).replace("'", "''"), str(row[65]).replace("'", "''"), str(row[66]).replace("'", "''"),\
-                        str(row[67]).replace("'", "''"), str(row[68]).replace("'", "''"), str(row[69]).replace("'", "''"), str(row[70]).replace("'", "''")\
+                        # 公開種別(jp)、公開種別(st16)、公開番号
+                        str(row[0]).replace("'", "''"), str(row[1]).replace("'", "''"), str(row[3]).replace("'", "''"),\
+                        str(row[99]).replace("'", "''"), str(row[100]).replace("'", "''"),\
+                        str(row[101]).replace("'", "''"), str(row[102]).replace("'", "''"),\
+                        str(row[103]).replace("'", "''"), str(row[104]).replace("'", "''"),\
+                        str(row[105]).replace("'", "''"), str(row[106]).replace("'", "''"),\
+                        str(row[107]).replace("'", "''"), str(row[108]).replace("'", "''"),\
+                        str(row[109]).replace("'", "''")\
                         )
                     # print(clm)
                     cur.execute(clm)
