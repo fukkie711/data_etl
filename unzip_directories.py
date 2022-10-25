@@ -7,6 +7,7 @@ import datetime
 import pathlib
 import shutil
 from tqdm import tqdm
+import tkinter as tk
 
 input_dir = pathlib.Path("C:/tmp_from/") #コピー元
 output_dir = pathlib.Path("C:/tmp_to/") #コピー先
@@ -46,10 +47,21 @@ def copy_pdf(input_dir, output_dir): #copy pdf file
         shutil.copyfile(pdf_file, output_filename)
         time.sleep(0.05)
 
+root = tk.Tk()
+root.title(u"データ抽出")
+root.geometry("550x450+500+300")
+root.grid()
 
-unzip_directories(input_dir, output_dir)
-copy_xml_and_chg_ipt_codec(input_dir, output_dir)
-copy_pdf(input_dir, output_dir)
+input_directory_button = tk.Button(root, text='インポート元', command = '')                        # ボタンを作成
+input_directory_button.place(x=0, y=0)
+
+output_directory_burtton = tk.Button(root, text='エクスポート先', command='')
+output_directory_burtton.place(x=0, y=30)
+root.mainloop()
+
+# unzip_directories(input_dir, output_dir)
+# copy_xml_and_chg_ipt_codec(input_dir, output_dir)
+# copy_pdf(input_dir, output_dir)
 
 
 # now = datetime.datetime.now()
