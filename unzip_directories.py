@@ -1,5 +1,4 @@
 import glob
-import re
 import os
 import sys
 import time
@@ -23,6 +22,27 @@ if len(sys.argv) < 3:
 input_dir = pathlib.Path(sys.argv[1])
 output_dir = pathlib.Path(sys.argv[2])
 
+def unzip_directories(input_dir, output_dir):
+    zip_files = glob.glob(f'{input_dir}/*.zip')
+    # print(zip_files)
+    for zip_file in tqdm(zip_files):
+        print(zip_file)
+        now = datetime.datetime.now()
+        print(f'extract time:{now}')
+        with zipfile.ZipFile(zip_file) as zf:
+            extract_path =  os.path.splitext(os.path.basename(zip_file))[0]
+
+            zf.extractall(path=output_dir/extract_path)
+            time.sleep(0.5)
+
+unzip_directories(input_dir, output_dir)
+now = datetime.datetime.now()
+print("----------------------------------------")
+print("{0}: {1:%Y/%m/%d %H:%M} xml copy files done.".format(output_dir, now))
+print("----------------------------------------")
+with open(str(output_dir) + '/' + '_output_result.txt', 'a', encoding='utf_8') as f_out:
+    f_out.write("{0}: {1:%Y/%m/%d %H:%M} extract zipfiles done.\n".format(output_dir, now))
+
 # def copy_xml_and_chg_ipt_codec(input_dir, output_dir):
 #     # ipt_path = Path(ipt)
 #     # opt_path = Path(opt)
@@ -38,15 +58,6 @@ output_dir = pathlib.Path(sys.argv[2])
 #                 # 下記はxmlからcsvに変換する際に、euc-jpの記載があると「マルチバイト文字列は使えません」みたいなエラーが出て進まないのでやむを得ず外科手術を行った結果がこれである…
 #                 f_out.write(f_in.read().replace('<?xml version="1.0" encoding="EUC-JP"?>', '<?xml version="1.0" encoding="UTF-8"?>'))
 #         time.sleep(0.1)
-
-def unzip_directories(input_dir, output_dir):
-    zip_files = glob.glob(f'{input_dir}/*.zip')
-    # print(zip_files)
-    for zip_file in tqdm(zip_files):
-        print(zip_file)
-        with zipfile.ZipFile(zip_file) as zf:
-            zf.extractall(os.path.dirname(zip_file))
-            time.sleep(0.5)
 # def copy_pdf(ipt, opt): #copy pdf file
 #     ipt_path = Path(ipt)
 #     opt_path = Path(opt)
@@ -55,15 +66,8 @@ def unzip_directories(input_dir, output_dir):
 #         print(opt_path, i.name )
 #         shutil.copyfile(i, str(opt_path) + '/' + i.name)
 
-unzip_directories(input_dir, output_dir)
 
 # copy_xml_and_chg_ipt_codec(input_dir, output_dir)
-now = datetime.datetime.now()
-print("----------------------------------------")
-print("{0}: {1:%Y/%m/%d %H:%M} xml copy files done.".format(output_dir, now))
-print("----------------------------------------")
-with open(str(output_dir) + '/' + '_output_result.txt', 'a', encoding='utf_8') as f_out:
-    f_out.write("{0}: {1:%Y/%m/%d %H:%M} xml copy files done.\n".format(output_dir, now))
 
 # copy_pdf(ipt, opt)
 # now = datetime.datetime.now()
