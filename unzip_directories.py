@@ -32,8 +32,11 @@ def unzip_directories(input_dir, output_dir):
         with zipfile.ZipFile(zip_file) as zf:
             extract_path =  os.path.splitext(os.path.basename(zip_file))[0]
 
-            zf.extractall(path=output_dir/extract_path)
-            time.sleep(0.5)
+            try:
+                zf.extractall(path=output_dir/extract_path)
+                time.sleep(0.5)
+            except zipfile.BadZipFile:
+                continue
 
 unzip_directories(input_dir, output_dir)
 now = datetime.datetime.now()
