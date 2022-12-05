@@ -1,5 +1,6 @@
 import glob
 import os
+import shutil
 import sys
 import time
 import zipfile
@@ -37,6 +38,8 @@ def unzip_directories(input_dir, output_dir):
                 time.sleep(0.5)
             except zipfile.BadZipFile:
                 continue
+        move_path = output_dir/os.path.basename(zip_file)
+        shutil.move(zip_file, move_path)
 
 unzip_directories(input_dir, output_dir)
 now = datetime.datetime.now()
