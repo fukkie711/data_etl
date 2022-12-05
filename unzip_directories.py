@@ -12,7 +12,8 @@ from tqdm import tqdm
 # input_dir = pathlib.Path("C:/tmp_from/") #コピー元
 # output_dir = pathlib.Path("C:/tmp_to/") #コピー先
 
-# 本番用（コマンドライン引数でインプットとアウトプットを指定
+# 本番用（コマンドライン引数でインプットとアウトプットを指定する。
+# ZIPファイルの解凍が終了すると、ZIPファイルはアウトプットディレクトリに移動される
 if len(sys.argv) < 2:
       print("インプットディレクトリを入力してください")
       sys.exit()
