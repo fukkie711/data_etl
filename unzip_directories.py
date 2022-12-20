@@ -39,16 +39,16 @@ def unzip_directories(input_dir, output_dir):
                 time.sleep(0.5)
             except zipfile.BadZipFile:
                 continue
-        move_path = output_dir/os.path.basename(zip_file)
-        shutil.move(zip_file, move_path)
+        # move_path = output_dir/os.path.basename(zip_file)
+        # shutil.move(zip_file, move_path)
 
 unzip_directories(input_dir, output_dir)
 now = datetime.datetime.now()
 print("----------------------------------------")
 print("{0}: {1:%Y/%m/%d %H:%M} xml copy files done.".format(output_dir, now))
 print("----------------------------------------")
-with open(str(output_dir) + '/' + '_output_result.txt', 'a', encoding='utf_8') as f_out:
-    f_out.write("{0}: {1:%Y/%m/%d %H:%M} extract zipfiles done.\n".format(output_dir, now))
+# with open(str(output_dir) + '/' + '_output_result.txt', 'a', encoding='utf_8') as f_out:
+#     f_out.write("{0}: {1:%Y/%m/%d %H:%M} extract zipfiles done.\n".format(output_dir, now))
 
 # def copy_xml_and_chg_ipt_codec(input_dir, output_dir):
 #     # ipt_path = Path(ipt)
