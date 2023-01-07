@@ -33,8 +33,10 @@ def unzip_directories(input_dir, output_dir):
         print(f'extract time:{now}')
         with zipfile.ZipFile(zip_file) as zf:
             extract_path =  os.path.splitext(os.path.basename(zip_file))[0]
+            print(extract_path)
 
             try:
+                # zf.extractall(path=output_dir/extract_path)
                 zf.extractall(path=output_dir/extract_path)
                 time.sleep(0.5)
             except zipfile.BadZipFile:
