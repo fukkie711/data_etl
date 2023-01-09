@@ -49,6 +49,9 @@ def extract_xml(input_dir, output_dir):
         # xml_files = glob.glob(f'{ dir}/**/*.xml')
         print(f'number of xml_files: {len(xml_files)}')
         for xml_file in tqdm(xml_files):
+            # with open(xml_file, encoding='euc_jp') as file_input:
+                # 下記はxmlからcsvに変換する際に、euc-jpの記載があると「マルチバイト文字列は使えません」みたいなエラーが出て進まないのでやむを得ず外科手術を行った結果がこれである…
+                # f_out.write(f_in.read().replace('<?xml version="1.0" encoding="EUC-JP"?>', '<?xml version="1.0" encoding="UTF-8"?>'))
             shutil.copy2(src=xml_file, dst=output_dir/dir/xml_directory)
     finish_time = datetime.datetime.now()
     print("--------------------------------------------------------------------")
